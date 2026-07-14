@@ -1,0 +1,391 @@
+/* ═══════════════════════════════════════════════════════════
+   style.css — Vox Cheats
+   Tema: Roxo profundo com efeitos de fogo e partículas
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --purple-950: #0d0520;
+  --purple-900: #1a0a35;
+  --purple-800: #2d1b4e;
+  --purple-700: #4c1d95;
+  --purple-600: #6d28d9;
+  --purple-500: #7c3aed;
+  --purple-400: #a855f7;
+  --purple-300: #c084fc;
+  --purple-200: #e9d5ff;
+  --purple-100: #f3e8ff;
+  --accent:     #e879f9;
+  --white:      #ffffff;
+  --glow-color: #7c3aed;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--purple-950);
+  color: var(--white);
+}
+
+/* ── Canvas de fogo (camada mais baixa) ───────────────────── */
+#fireCanvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.55;
+}
+
+/* ── Partículas ───────────────────────────────────────────── */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Overlay gradiente (suaviza o fogo) ───────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, transparent 0%, var(--purple-950) 70%),
+    linear-gradient(to bottom, var(--purple-950) 0%, transparent 30%, transparent 70%, var(--purple-950) 100%);
+  pointer-events: none;
+}
+
+/* ── Container principal ──────────────────────────────────── */
+.container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px 16px;
+  gap: 32px;
+}
+
+/* ── Área do logo ─────────────────────────────────────────── */
+.logo-area {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-glow {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--purple-600) 0%, var(--purple-900) 70%);
+  border: 2px solid var(--purple-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  box-shadow:
+    0 0 20px var(--purple-500),
+    0 0 40px var(--purple-600),
+    0 0 80px var(--purple-700);
+  animation: logoPulse 3s ease-in-out infinite;
+  margin-bottom: 8px;
+}
+
+@keyframes logoPulse {
+  0%, 100% { box-shadow: 0 0 20px var(--purple-500), 0 0 40px var(--purple-600), 0 0 80px var(--purple-700); }
+  50%       { box-shadow: 0 0 30px var(--accent),    0 0 60px var(--purple-500), 0 0 100px var(--purple-600); }
+}
+
+/* ── Nome da marca ────────────────────────────────────────── */
+.brand-name {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  display: flex;
+  gap: 0.2em;
+  text-shadow: 0 0 30px var(--purple-500);
+}
+
+.brand-vox {
+  color: var(--white);
+  position: relative;
+}
+
+.brand-cheats {
+  color: var(--purple-400);
+  position: relative;
+}
+
+/* Glitch */
+.glitch-active {
+  animation: glitch 0.3s steps(2) forwards;
+}
+
+@keyframes glitch {
+  0%   { text-shadow: 2px 0 var(--accent), -2px 0 var(--purple-300); transform: skewX(2deg); }
+  25%  { text-shadow: -2px 0 var(--accent), 2px 0 var(--purple-300); transform: skewX(-2deg); }
+  50%  { text-shadow: 2px 2px var(--accent), -2px -2px var(--purple-300); transform: skewX(1deg); }
+  75%  { text-shadow: -1px 0 var(--accent), 1px 0 var(--purple-300); transform: skewX(-1deg); }
+  100% { text-shadow: 0 0 30px var(--purple-500); transform: skewX(0); }
+}
+
+.brand-tagline {
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  color: var(--purple-300);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* ── Card central ─────────────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(135deg, rgba(45, 27, 78, 0.85) 0%, rgba(13, 5, 32, 0.9) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.4);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.15),
+    0 8px 32px rgba(124, 58, 237, 0.3),
+    0 32px 64px rgba(13, 5, 32, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  animation: cardFloat 6s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Brilho superior do card */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--purple-400), var(--accent), var(--purple-400), transparent);
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { opacity: 0.3; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+.card-inner {
+  padding: 36px 32px;
+}
+
+/* ── Header do card ───────────────────────────────────────── */
+.card-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.discord-icon-wrap {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #5865F2, #4752c4);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 4px 20px rgba(88, 101, 242, 0.5);
+}
+
+.discord-svg {
+  width: 32px;
+  height: 32px;
+  color: white;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.card-subtitle {
+  font-size: 0.875rem;
+  color: var(--purple-300);
+  opacity: 0.85;
+}
+
+/* ── Features ─────────────────────────────────────────────── */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(124, 58, 237, 0.12);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  color: var(--purple-200);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.feature-item:hover {
+  background: rgba(124, 58, 237, 0.22);
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+.feature-icon {
+  font-size: 1.1rem;
+}
+
+/* ── Botão Discord ────────────────────────────────────────── */
+.btn-discord {
+  --gx: 50%;
+  --gy: 50%;
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  background:
+    radial-gradient(circle at var(--gx) var(--gy), rgba(255,255,255,0.15) 0%, transparent 60%),
+    linear-gradient(135deg, var(--purple-600) 0%, var(--purple-500) 50%, var(--accent) 100%);
+  background-size: 100% 100%, 200% 200%;
+  box-shadow:
+    0 4px 20px rgba(124, 58, 237, 0.5),
+    0 0 0 0 rgba(124, 58, 237, 0);
+  transition: transform 0.15s, box-shadow 0.3s, background-position 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  animation: btnGlow 3s ease-in-out infinite;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@keyframes btnGlow {
+  0%, 100% { box-shadow: 0 4px 20px rgba(124, 58, 237, 0.5), 0 0 0 0 rgba(124, 58, 237, 0); }
+  50%       { box-shadow: 0 4px 30px rgba(168, 85, 247, 0.7), 0 0 40px rgba(232, 121, 249, 0.3); }
+}
+
+.btn-discord:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.7), 0 0 60px rgba(168, 85, 247, 0.4);
+}
+
+.btn-discord:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-text {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-arrow {
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.btn-discord:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Ripple ao clicar */
+.btn-discord::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.btn-discord:active::after {
+  opacity: 1;
+  transition: opacity 0s;
+}
+
+/* ── Contador de membros ──────────────────────────────────── */
+.member-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: var(--purple-300);
+  opacity: 0.8;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  animation: pulseDot 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.4); }
+}
+
+/* ── Rodapé ───────────────────────────────────────────────── */
+.footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--purple-300);
+  opacity: 0.5;
+}
+
+.footer strong {
+  color: var(--purple-400);
+}
+
+/* ── Responsividade ───────────────────────────────────────── */
+@media (max-width: 480px) {
+  .card-inner {
+    padding: 28px 20px;
+  }
+
+  .brand-name {
+    font-size: 2.8rem;
+  }
+}
+
+/* ── Scrollbar roxa (caso haja overflow) ──────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--purple-950); }
+::-webkit-scrollbar-thumb { background: var(--purple-600); border-radius: 3px; }
